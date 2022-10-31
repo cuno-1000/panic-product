@@ -1,0 +1,96 @@
+syntax = "proto3";
+
+package user;
+
+option go_package = "./proto;event";
+
+service User {
+	// Register 注册
+	rpc Register(UserRegisterRequest) returns (UserRegisterResponse) {}
+	// Login 登录
+	rpc Login(UserLoginRequest) returns (UserLoginResponse) {}
+	// GetUserInfo 查询用户信息
+	rpc GetUserInfo(UserInfoRequest) returns (UserInfoResponse) {}
+	// CheckInfo 信息檢查
+	rpc CheckInfo(UserCheckInfoRequest) returns (UserCheckInfoResponse) {}
+
+	rpc FetchNormalAdult(FetchNormalAdultRequest) returns (FetchNormalAdultResponse) {}
+
+	rpc ReduceBalance(ReduceBalanceRequest) returns (ReduceBalanceResponse) {}
+
+	rpc TestService(TestingRequest) returns (TestingResponse) {}
+}
+
+message UserInfoRequest {
+	uint64 user_id = 1;
+}
+
+message UserInfoResponse {
+	string user_name = 1;
+	string user_tel = 2;
+	string user_id_number = 3;
+	string user_career_status = 4;
+	string user_balance = 5;
+}
+
+message UserRegisterRequest {
+	string user_tel = 1;
+	string user_name = 2;
+	string user_id_number = 3;
+	string user_pwd = 4;
+}
+
+message UserRegisterResponse {
+	string message = 1;
+	uint64 user_id = 2;
+}
+
+message UserLoginRequest {
+	string user_tel = 1;
+	string pwd = 2;
+}
+
+message UserLoginResponse {
+	bool is_success = 1;
+	uint64 user_id = 2;
+}
+
+//
+
+message UserCheckInfoRequest {
+	uint64 user_id = 1;
+}
+
+message UserCheckInfoResponse {
+	uint32 age = 1;
+	string gender = 2;
+	bool is_adult = 3;
+	bool is_career_status_normal = 4;
+}
+
+message FetchNormalAdultRequest {}
+
+message UserWithAgeCareerSituation {
+	uint64 user_id = 1;
+	int64 situation = 2;
+}
+message FetchNormalAdultResponse {
+	repeated UserWithAgeCareerSituation UserWithSituation = 1;
+}
+
+message ReduceBalanceRequest {
+	uint64 user_id = 1;
+	string amount = 2;
+}
+
+message ReduceBalanceResponse {
+	bool is_success = 1;
+}
+
+message TestingRequest {
+	bool is_success = 1;
+}
+
+message TestingResponse {
+	string message = 1;
+}

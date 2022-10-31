@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package event;
+
+option go_package = "./proto;gateway";
+
+service EventEngine {
+  rpc CreateEvent(CreateEventRequest) returns (CreateEventResponse) {}
+  rpc FetchEvents(FetchEventsRequest) returns (FetchEventsResponse) {}
+  rpc CheckBlacklist(CheckBlacklistRequest) returns (CheckBlacklistResponse) {}
+  rpc CheckBlacklistDowngrade(CheckBlacklistRequest) returns (CheckBlacklistResponse) {}
+  rpc ApplyPurchase(ApplyRequest) returns (ApplyResponse) {}
+}
+
+message CreateEventRequest {
+  uint64 admin_id = 1;
+  string apply_rules = 2;
+  uint32 product_quantity = 3;
+  double product_item_price = 4;
+  string info = 5;
+  string review_upper_limit_at = 6;
+  string starting_at = 7;
+  uint64 OverDueMaxTimes = 8;
+}
+
+message CreateEventResponse {
+  string uuid = 1;
+  bool is_success = 2;
+}
+
+message EventItem {
+  string uuid_url = 1;
+  string info = 2;
+}
+message FetchEventsRequest {}
+
+message FetchEventsResponse {
+  repeated EventItem events = 1;
+}
+
+message CheckBlacklistRequest {
+  uint64 user_id = 1;
+  string uuid = 2;
+}
+
+message CheckBlacklistResponse {
+  string link = 1;
+  int64 situation = 2;
+}
+
+message ApplyRequest {
+  string link = 1;
+  uint64 user_id = 2;
+  string uuid = 3;
+}
+
+message ApplyResponse {
+  bool is_success = 1;
+  int64 situation = 2;
+}

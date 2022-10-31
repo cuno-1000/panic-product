@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package repayment;
+
+option go_package = "./proto;event";
+
+service RepaymentRecord {
+  rpc FetchBlacklist(BlacklistRequest) returns (BlacklistResponse) {}
+  rpc FetchRepaymentOverDue(RepaymentOverDueRequest) returns (RepaymentOverDueResponse) {}
+  rpc IsUserIdRepaymentOverDue(IsUserIdRepaymentOverDueRequest) returns (IsUserIdRepaymentOverDueResponse) {}
+  rpc IsInBlacklist(IsInBlacklistRequest) returns (IsInBlacklistResponse) {}
+  rpc SeedRecord(SeedRecordRequest) returns (SeedRecordResponse) {}
+}
+
+message SeedRecordRequest {
+  uint64 user_id = 1;
+}
+
+message SeedRecordResponse {
+  bool is_success = 1;
+}
+
+message BlacklistRequest {}
+message BlacklistResponse {
+  repeated uint64 user_id = 1;
+}
+
+message RepaymentOverDueRequest {
+  string time_upper_limit = 1;
+  string adapted_remaining_repayments = 2;
+  uint32 max_times = 3;
+}
+message RepaymentOverDueResponse {
+  repeated uint64 user_id = 1;
+}
+
+message IsUserIdRepaymentOverDueRequest {
+  string time_upper_limit = 1;
+  string adapted_remaining_repayments = 2;
+  uint64 user_id = 3;
+  uint32 max_times = 4;
+}
+message IsUserIdRepaymentOverDueResponse {
+  bool over_due = 1;
+}
+
+message IsInBlacklistRequest {
+  uint64 user_id = 1;
+}
+message IsInBlacklistResponse {
+  bool in = 1;
+}
